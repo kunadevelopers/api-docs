@@ -86,9 +86,9 @@ console.log(signatureHex); // выведет подпись запроса в HE
 ```
 
 
-### Пример приватного запроса с CURL
+### Пример приватного запроса с cURL
 
-```
+```bash
 curl -X GET \
     https://api.kuna.io/v3/auth/kuna_codes/issued-by-me \
     -H 'Accept: application/json' \
@@ -97,3 +97,112 @@ curl -X GET \
     -H 'Kun-Signature: 0d34c19a5125d68fe2e7fb3a3b58e162cc53e166d1e7790deb5d79f6cb04aad1d5e01daeb3ecf8871c3b767a8ea289ea'
 ```
 ###### Не пытайтесь использовать этот API Key. Он для примера :)
+
+
+## Публичные методы
+
+### Время на сервере
+
+```
+GET /v3/timestamp
+```
+
+**Ответ**
+
+```json
+{
+  "timestamp": 1560005994,
+  "timestamp_miliseconds": 1560005994692
+}
+```
+
+
+### Список доступных валют
+Вернет список валют, доступных на Kuna.
+
+```
+GET /v3/currencies
+```
+
+**Ответ**
+
+```json
+[
+  {
+    "id": 2,
+    "code": "btc",
+    "name": "Bitcoin",
+    "has_memo": false,
+    "icons": {
+      "std": "https://kuna.io/icons/currency/std/btc.svg",
+      "xl": "https://kuna.io/icons/currency/xl/btc.svg",
+      "png_2x": "https://kuna.io/icons/currency/png/BTC@2x.png",
+      "png_3x": "https://kuna.io/icons/currency/png/BTC@3x.png"
+    },
+    "coin": true,
+    "explorer_link": "https://www.blockchain.com/btc/tx/#{txid}",
+    "sort_order": 5,
+    "precision": {
+      "real": 8,
+      "trade": 6
+    }
+  }
+]
+```
+
+### Курс валюты на бирже
+```
+GET /v3/exchange-rates/{?currency}
+```
+
+### Список доступных рынков
+```
+GET /v3/markets
+```
+
+### Последние данные по рынку
+Этот метод возвращает тикеры по всем рынкам, либо по конкретному.
+Тикер представляет собой общий обзор состояния рынка. Он показывает текущую лучшую цену спроса и предложения, а также цену последней сделки. Он также включает в себя информацию, такую как дневной объем и сколько цена изменилась за последний день.
+
+```
+GET /v3/tickers?symbols={symbols}
+```
+
+```bash
+# Вернет информацию по btcuah, kunbtc и ethuah
+curl https://api.kuna.io/v3/tickers?symbols=btcuah,kunbtc,ethuah
+
+# Вернет информацию только по рынку btcuah
+curl https://api.kuna.io/v3/tickers?symbols=btcuah
+
+# Вернет информацию по всем активным рынкам
+curl https://api.kuna.io/v3/tickers?symbols=ALL
+```
+
+**Пример ответа**
+```bash
+[
+  [
+    "btcuah",   # символ рынка
+    208001,     # цена BID
+    11200693,   # размер стакана BID
+    208499,     # цена ASK
+    29.255569,  # размер стакана ASK
+    5999,       # изменение цены за 24 часа в котируемой валюте 
+    -2.8,       # изменение цены за 24 часа в процентах
+    208001,     # последняя цена
+    11.3878,    # объем торгов за 24 часа в базовой валюте
+    215301,     # максимальная цена за 24 часа
+    208001      # минимальная цена за 24 часа
+  ]
+]
+```
+
+### Биржевой стакан
+```
+GET /v3/book/{symbol}
+```
+
+
+## Kuna Codes
+Также на бирже 
