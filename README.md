@@ -128,7 +128,7 @@ GET /v3/currencies
 ```
 
 **Пример ответа**
-```json
+```bash
 [
   {
     "id": 2,
@@ -152,9 +152,31 @@ GET /v3/currencies
 ]
 ```
 
-### Курс валюты на бирже
+### Курс валют на бирже
+Этот метод позволяет вам получить курсы валют в USD, UAH, BTC, EUR и в рублике, для каждой из существующих валют на Kuna.
+
 ```
-GET /v3/exchange-rates/{?currency}
+GET /v3/exchange-rates/{currency}
+```
+
+```bash
+# вернет объект с курсами для USD
+https://api.kuna.io/v3/exchange-rates/usd
+
+# если не указать currency, то метод вернет массив всех доступных валют с их курсами
+https://api.kuna.io/v3/exchange-rates
+```
+
+**Пример ответа для USD**
+```bash
+{
+  "currency": "usd",  # ключ валюты
+  "usd": 1,           # курс к доллару соединенных штатов
+  "uah": 26.595721,   # курс к гривне Украины
+  "btc": 0.0001276,   # курс к Bitcoin
+  "eur": 1.13,        # курс к Евро
+  "rub": 0.0153752    # курс к рублику
+}
 ```
 
 
@@ -169,13 +191,13 @@ GET /v3/markets
 ```bash
 [
   {
-    id: "btcusdt",
-    base_unit: "btc",
-    quote_unit: "usdt",
-    base_precision: 6,
-    quote_precision: 2,
-    display_precision: 1,
-    price_change: -1.89
+    "id": "btcusdt",
+    "base_unit": "btc",
+    "quote_unit": "usdt",
+    "base_precision": 6,
+    "quote_precision": 2,
+    "display_precision": 1,
+    "price_change": -1.89
   }
 ]
 ```
