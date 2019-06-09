@@ -70,8 +70,8 @@ HEX(
 ```javascript
 const crypto = require('crypto');
 
-const apiKey = '';
-const apiSecret = '';
+const publicKey = '';
+const privateKey = '';
 
 const apiPath = '/v3/auth/kuna_codes/issued-by-me';
 const nonce = new Date().getTime();
@@ -79,10 +79,12 @@ const body = {};
 
 const signatureString = `${apiPath}${nonce}${JSON.stringify(body)}`;
 
-const signature = crypto.createHmac('sha384', apiSecret).update(signature);
-const signatureHex = sig.digest('hex');
+const signature = crypto
+    .createHmac('sha384', apiSecret)
+    .update(signatureString)
+    .digest('hex');
 
-console.log(signatureHex); // выведет подпись запроса в HEX формате
+console.log(signature); // выведет подпись запроса в HEX формате
 ```
 
 
@@ -126,7 +128,6 @@ GET /v3/currencies
 ```
 
 **Пример ответа**
-
 ```json
 [
   {
