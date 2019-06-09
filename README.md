@@ -157,9 +157,26 @@ GET /v3/exchange-rates/{?currency}
 ```
 
 
-### Список доступных рынков
+### Рынки
+Этот метод возвращает список валютных пар (рынков), которые доступны для торговли.
+
 ```
 GET /v3/markets
+```
+
+**Пример ответа**
+```bash
+[
+  {
+    id: "btcusdt",
+    base_unit: "btc",
+    quote_unit: "usdt",
+    base_precision: 6,
+    quote_precision: 2,
+    display_precision: 1,
+    price_change: -1.89
+  }
+]
 ```
 
 
