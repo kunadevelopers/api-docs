@@ -112,8 +112,7 @@ GET /v3/timestamp
 ```
 
 **Пример ответа**
-
-```json
+```bash
 {
   "timestamp": 1560005994,
   "timestamp_miliseconds": 1560005994692
@@ -160,6 +159,7 @@ GET /v3/currencies
 GET /v3/exchange-rates/{currency}
 ```
 
+**Примеры запроса**
 ```bash
 # вернет объект с курсами для USD
 https://api.kuna.io/v3/exchange-rates/usd
@@ -212,6 +212,7 @@ GET /v3/markets
 GET /v3/tickers?symbols={symbols}
 ```
 
+**Примеры запроса**
 ```bash
 # Вернет информацию по btcuah, kunbtc и ethuah
 curl https://api.kuna.io/v3/tickers?symbols=btcuah,kunbtc,ethuah
@@ -249,6 +250,7 @@ curl https://api.kuna.io/v3/tickers?symbols=ALL
 GET /v3/book/{symbol}
 ```
 
+**Пример ответа**
 ```bash
 [
   [
@@ -269,6 +271,63 @@ GET /v3/book/{symbol}
 Если обьем > 0, то имеем данные для BID стакана
 
 Если обьем < 0, то данные для ASK стакана
+
+
+## Приватные методы
+Каждый приватный метод требует подписи, механизм которой описан в **Схема и сериализация данных в API > Подпись для приватных методов**.
+
+
+### 1) Данные аккаунта
+Данный метод возвращает данные об аккаунте, такие как Email, Kuna-ID, активна ли двухфакторная аутентификация.
+
+```bash
+POST /v3/auth/me
+```
+
+**Пример ответа**
+```bash
+{
+  "email": "my-email@gmail.com",
+  "kunaid": "kunaid-XXXXXXXXXXXX",
+  "two_factor": true,
+  "withdraw_confirmation": false,
+  "public_keys": {
+    "deposit_sdk_uah_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "deposit_sdk_usd_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "deposit_sdk_rub_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  },
+  "announcements": false
+}
+```
+
+
+### 2) Баланс аккаунта
+Метод баланса аккаунта возвращает массив всех балансов всех валют вашего акаунта на Kuna вместе с информацией о достпных средствах.
+
+```bash
+POST /v3/auth/r/wallets
+```
+
+**Пример ответа**
+```bash
+[
+  [
+    'exchange', 
+    'USD',      # символ валюты
+    1208370,    # полный баланс аккаунте
+    null,       
+    1208370     # доступные средства
+  ],
+  [
+    'exchange',
+    'KUN',
+    800000,
+    null,
+    760000
+  ],
+]
+```
+
 
 
 ## Kuna Codes
