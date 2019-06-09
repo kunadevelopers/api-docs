@@ -57,12 +57,12 @@ HEX(
 
 Где,
 
-| Значение        | Описание        |
-| --------------- | --------------- |
-| `{apiPath}` | Метод, к примеру `/v3/auth/kuna_codes/count` |
-| `{nonce}` | Метка времени запроса. Указывается в формате Unix Time Stamp в милисекундах (ms). Это же значние должно быть и в заголовке под ключем `Kun-Nonce` |
-| `{body}` | Данные, которые передаются в теле запроса. Должны быть в формате JSON. В случае `GET` запросов, когда тело не передается, используется пустой JSON объект - `{}`. |
-| `{privateKey}` | Приватный ключ вашего API Token |
+| Значение        | Описание                                     |
+| --------------- | -------------------------------------------- |
+| `{apiPath}`     | Метод, к примеру `/v3/auth/kuna_codes/count` |
+| `{nonce}`       | Метка времени запроса. Указывается в формате Unix Time Stamp в милисекундах (ms). Это же значние должно быть и в заголовке под ключем `Kun-Nonce` |
+| `{body}`        | Данные, которые передаются в теле запроса. Должны быть в формате JSON. В случае `GET` запросов, когда тело не передается, используется пустой JSON объект - `{}`. |
+| `{privateKey}`  | Приватный ключ вашего API Token              |
 
 
 #### Пример подписи с использованием JavaScript
@@ -84,7 +84,7 @@ const signature = crypto
     .update(signatureString)
     .digest('hex');
 
-console.log(signature); // выведет подпись запроса в HEX формате
+console.log(signature); // вывидет подпись запроса в HEX формате
 ```
 
 
@@ -353,10 +353,14 @@ POST /v3/auth/r/orders/{?markets}
 **Примеры запроса**
 ```bash
 # Вернет список всех активных ордеров
-curl https://api.kuna.io/v3/auth/r/orders
+curl https://api.kuna.io/v3/auth/r/orders \
+  -X 'POST' \
+  -d "{}"
 
 # Вернет список активных ордеров только на паре BTC/UAH
-curl https://api.kuna.io/v3/auth/r/orders/btcuah
+curl https://api.kuna.io/v3/auth/r/orders/btcuah \
+  -X 'POST' \
+  -d "{}"
 ```
 
 **Пример ответа**
@@ -398,10 +402,14 @@ POST /v3/auth/r/orders/{?markets}/hist
 **Примеры запроса**
 ```bash
 # Вернет список исполненных ордеров ордеров для любой пары
-curl https://api.kuna.io/v3/auth/r/orders/hist
+curl https://api.kuna.io/v3/auth/r/orders/hist \
+  -X 'POST' \
+  -d "{}"
 
 # Вернет список исполненных ордеров только для пары BTC/UAH
-curl https://api.kuna.io/v3/auth/r/orders/btcuah/hist
+curl https://api.kuna.io/v3/auth/r/orders/btcuah/hist \
+  -X 'POST' \
+  -d "{}"
 ```
 
 **Параметры тела запроса**
@@ -451,10 +459,12 @@ POST /v3/auth/r/order/{market}:{order_id}/trades
 **Пример запроса**
 ```bash
 # Вернет список сделок для ордера ID 10000000 в паре BTC/UAH
-curl https://api.kuna.io/v3/auth/r/order/btcuah:10000000/trades
+curl https://api.kuna.io/v3/auth/r/order/btcuah:10000000/trades \
+  -X 'POST' \
+  -d "{}"
 ```
 
-**Параметры пути**
+**Параметры запроса**
 
 | Параметр         | Описание                                  |
 |------------------|-------------------------------------------|
@@ -481,8 +491,47 @@ curl https://api.kuna.io/v3/auth/r/order/btcuah:10000000/trades
 ```
 
 
+### 7) Отменить ордер
+Этот метод позволяет отменить один или несколько активных ордеров.
+
+```bash
+POST /v3/order/cancel
+```
+
+**Пример запроса**
+```bash
+# Отменит ордер с ID 1000000 
+curl https://api.kuna.io/v3/order/cancel
+  -X 'POST' \
+  -d '{"order_id": 1000000}'
+
+# А так можно отменить сразу несколько ордеров, ID 1000000 и ID 1000001
+curl https://api.kuna.io/v3/order/cancel/multy
+  -X 'POST' \
+  -d '{"order_ids": [1000000, 1000001]}'
+```
 
 
+**Пример ответа**
+```bash
+{
+  "id": 100279610,                  # ID ордера
+  "side": "sell",                   # Операция ордера - продажа или покупка
+  "type": "limit",                  # Тип ордера, limit или market
+  "price": "14.0",                  # Цена ордера
+  "avg_execution_price": "0.0",     # Средняя цена сделок по ордеру
+  "symbol": "xrpuah",               # Валютная пара ордера
+  "timestamp": 1560089091000,       # Время закрытия ордера
+  "original_amount": "45.0",        # Изначальный объем ордера
+  "remaining_amount": "45.0",       # Объем ордера на момент закрытия
+  "executed_amount": "0.0",         # Исполненный объем ордера 
+  "is_cancelled": null,
+  "is_hidden": null,
+  "is_live": null,
+  "was_forced": null,
+  "exchange": null
+}
+```
 
 
 ## Kuna Codes
