@@ -298,16 +298,17 @@ GET /v3/kuna_codes/{code}/check
 
 ```bash
 {
-  id: 519,                  # внутренний ID
-  sn: 'p9MajCjlLo72',       # ID для указания к супорту
-  code: '11111',            # первый сегмент кода
-  recipient: 'all',         # кто может активировать код
-  amount: 20000,            # сумма кода
-  currency: 'xrp',          # currency кода
-  status: 'active',         # статус (active, redeemed, expired)
-  non_refundable_before: null, # хз что это..
-  created_at: '2019-03-20T13:00:00+02:00', # время создания кода
-  redeemed_at: null         # время активации кода
+  id: 519,                      # внутренний ID
+  sn: 'p9MajCjlLo72',           # ID для указания к супорту
+  code: '11111',                # первый сегмент кода
+  recipient: 'all',             # Kuna-ID того кто может активировать код.
+                                # Если 'all' то активировать может кто угодно
+  amount: 20000,                # сумма кода
+  currency: 'xrp',              # currency кода
+  status: 'active',             # статус (active, redeemed, expired)
+  non_refundable_before: null,  # до этого времени владелец кода не может его активировать.              
+  created_at: '2019-03-20T13:00:00+02:00',  # время создания кода                            
+  redeemed_at: null             # время активации кода
 }
 ```
 
