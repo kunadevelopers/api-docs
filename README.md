@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/kunadevelopers/api-docs/master/kuna_api.png" title="Kuna API v3 Documentation" alt="kuna api v3 doc" />
+</p>
+
 # Документаций по Kuna API v3
 
 API организовано по принципам REST. \
