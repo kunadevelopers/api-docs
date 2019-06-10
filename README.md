@@ -585,40 +585,41 @@ curl -X 'POST' \
 
 ### 2) Вывод средств
   
-1) Для начала вам нужно получить список доступных способов для вывода. \
-   Это можно сделать с помощью метода `POST https://com.paycore.io/public-api/payout-prerequest` (подробнее об этом методе [тут](https://swagger.paycore.io/commerce-public/#/Payouts/post_payout_prerequest)). \
-   Вы получите JSON в котором будет содержатся колекция методов вывода под ключем сервиса. Пример ответа:
-   ```bash
-   {
-     "payeer_rub": {
-       "code": "payeer_rub",
-       "method": "payeer",
-       "currency": "RUB",
-       "fields": [{
-         "key": "account_number",
-         "type": "string",
-         "label": {"ru": "Номер счета", "en": "Account number", "uk": "Номер рахунку"},
-         "example": null,
-         "hint": {"ru": "Введите номер счета", "en": "Enter account number", "uk": "Введіть номер рахунку"},
-         "regexp": "^[P]{1}[0-9]{7,15}$",
-         "required": true,
-         "position": 0
-      }],
-      "amount_min": 200,
-      "amount_max": 99999,
-      "fee": {"rate": 0, "fixed": 0, "min": 0, "max": 0}
-    },
-    "qiwi_rub": {
-      # ...
-    },
-    "advcash_wallet_rub": {
-      # ...
-    },
-    "payment_card_rub": {
-      # ...
-    }
+Для начала вам нужно получить список доступных способов для вывода. \
+Это можно сделать с помощью метода `POST https://com.paycore.io/public-api/payout-prerequest` (подробнее об этом методе [тут](https://swagger.paycore.io/commerce-public/#/Payouts/post_payout_prerequest)). \
+Вы получите JSON в котором будет содержатся колекция методов вывода под ключем сервиса. Пример коллекции:
+
+```bash
+{
+  "payeer_rub": {
+    "code": "payeer_rub",
+    "method": "payeer",
+    "currency": "RUB",
+    "fields": [{
+      "key": "account_number",
+      "type": "string",
+      "label": {"ru": "Номер счета", "en": "Account number", "uk": "Номер рахунку"},
+      "example": null,
+      "hint": {"ru": "Введите номер счета", "en": "Enter account number", "uk": "Введіть номер рахунку"},
+      "regexp": "^[P]{1}[0-9]{7,15}$",
+      "required": true,
+      "position": 0
+    }],
+    "amount_min": 200,
+    "amount_max": 99999,
+    "fee": {"rate": 0, "fixed": 0, "min": 0, "max": 0}
+  },
+  "qiwi_rub": {
+    # параметры для вывода через QIWI
+  },
+  "advcash_wallet_rub": {
+    # параметры для вывода через AdvCash RUB
+  },
+  "payment_card_rub": {
+    # параметры для вывода через платежную карту
   }
-  ```
+}
+```
 
 
 ## Kuna Codes
