@@ -667,8 +667,8 @@ POST /v3/auth/kuna_codes
     "857ny-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-KUN-KCode",
   "recipient": "all",       # Kuna-ID того кто может активировать код.
                             # если 'all' то активировать может кто угодно
-  "amount": "2938",         # сумма кода
-  "currency": "xrp",        # валюта кода
+  "amount": "800000",       # сумма кода
+  "currency": "kun",        # валюта кода
   "status": "active",       # статус кода
   "non_refundable_before":  # время, до которого нельзя активировать код владельцем
     "2019-08-20T13:00:00+02:00",   
@@ -709,14 +709,15 @@ HTTP/1.1 200 OK
     "857ny-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-KUN-KCode",
   "recipient": "all",       # Kuna-ID того кто может активировать код.
                             # если 'all' то активировать может кто угодно
-  "amount": "2938",         # сумма кода
-  "currency": "xrp",        # валюта кода
+  "amount": "800000",       # сумма кода
+  "currency": "kun",        # валюта кода
   "status": "active",       # статус кода
   "non_refundable_before":  # время, до которого нельзя активировать код владельцем
     "2019-08-20T13:00:00+02:00",   
   "created_at":             # время создания кода
     "2019-03-20T13:00:00+02:00",              
-  "redeemed_at": null,      # время активации кода
+  "redeemed_at":            # время активации кода
+    "2019-06-20T13:00:00+02:00",
   "comment":                # приватный коментарий кода
     "Try to activate inside your Plark Wallet",  
   "private_comment":        # публичный коментарий кода
