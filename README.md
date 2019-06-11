@@ -7,7 +7,7 @@
 API организовано по принципам REST. \
 Все методы делятся на публичные (public) и приватные (private).
 
-Для того что бы осуществлять приватные запросы, вы должны быть зерегистрированным пользователем на сайте [kuna.io](https://kuna.io), и иметь специальный **API Token**, который состоит из публичного (`publicKey`) и приватного (`privateKey`) ключей.
+Для того что бы осуществлять приватные запросы, вы должны быть зерегистрированным пользователем на сайте [kuna.io](https://kuna.io), и иметь специальный **API Token**, который состоит из публичного (`publicKey`) и приватного (`secretKey`) ключей.
 
 Для публичных методов ключ и подпись запроса не нужны.
 
@@ -63,7 +63,7 @@ https://api.kuna.io/v3/book/{market}
 HEX(
     HMAC-SHA384(
       {apiPath} + {nonce} + JSON({body}),
-      {privateKey}
+      {secretKey}
     )
 )
 ```
@@ -75,7 +75,7 @@ HEX(
 | `{apiPath}`     | Метод, к примеру `/v3/auth/kuna_codes/count` |
 | `{nonce}`       | Метка времени запроса. Указывается в формате Unix Time Stamp в милисекундах (ms). Это же значние должно быть и в заголовке под ключем `Kun-Nonce` |
 | `{body}`        | Данные, которые передаются в теле запроса. Должны быть в формате JSON. В случае `GET` запросов, когда тело не передается, используется пустой JSON объект - `{}`. |
-| `{privateKey}`  | Приватный ключ вашего API Token              |
+| `{secretKey}`   | Приватный ключ вашего API Token              |
 
 
 #### Пример подписи с использованием JavaScript
@@ -84,7 +84,7 @@ HEX(
 const crypto = require('crypto');
 
 const publicKey = '';
-const privateKey = '';
+const secretKey = '';
 
 const apiPath = '/v3/auth/kuna_codes/issued-by-me';
 const nonce = new Date().getTime();
@@ -93,11 +93,11 @@ const body = {};
 const signatureString = `${apiPath}${nonce}${JSON.stringify(body)}`;
 
 const signature = crypto
-    .createHmac('sha384', apiSecret)
+    .createHmac('sha384', secretKey)
     .update(signatureString)
     .digest('hex');
 
-console.log(signature); // вывидет подпись запроса в HEX формате
+console.log(signature); // выводит подпись запроса в HEX формате
 ```
 
 
@@ -656,6 +656,44 @@ POST /v3/auth/kuna_codes
 | non_refundable_before | нет          | Формат ISO8601. Дата до которой владелец кода не сможет его активировать. |
 | comment               | нет          | Публичная заметка к коду.           |
 | private_comment       | нет          | Приватная заметка к коду, которая видна только владельцу кода. |
+
+
+**Пример ответа**
+```bash
+{
+  "id": 519,                # внутренний ID
+  "sn": "p9MajCjlLo72",     # ID для указания к супорту
+  "code":                   # секретный ключ кода, по которому он и активируется
+    "857ny-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-KUN-KCode",
+  "recipient": "all",       # Kuna-ID того кто может активировать код.
+                            # если 'all' то активировать может кто угодно
+  "amount": "2938",         # сумма кода
+  "currency": "xrp",        # валюта кода
+  "status": "active",       # статус кода
+  "non_refundable_before":  # время, до которого нельзя активировать код владельцем
+    "2019-08-20T13:00:00+02:00",   
+  "created_at":             # время создания кода
+    "2019-03-20T13:00:00+02:00",              
+  "redeemed_at": null,      # время активации кода
+  "comment":                # приватный коментарий кода
+    "Try to activate inside your Plark Wallet",  
+  "private_comment":        # публичный коментарий кода
+    "Ripple to the MOON!"                
+}
+```
+
+### 3) Получить информацию о Kuna Code по ID
+У любого кунакода есть уникальный номер. Этот метод позволяет получить информацию о Kuna Code по этому номеру.
+
+```bash
+POST /v3/auth/kuna_codes/details
+```
+
+**Параметры запроса**
+
+| Параметр              | Обязательный | Описание                            |
+|-----------------------|--------------|-------------------------------------|
+| id (int32)            | да           | Внутренний ID кода                  |
 
 
 **Пример ответа**
