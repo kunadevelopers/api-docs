@@ -739,11 +739,11 @@ POST /v3/auth/kuna_codes/issued-by-me
 
 | Параметр              | Обязательный | Описание                            |
 |-----------------------|--------------|-------------------------------------|
-| page (int32)          | нет          | Номер страницы (по умолчанию 1)     |
-| per_page (int32)      | нет          | Количество кодов на страницу (по умолчанию 10) |
-| order_by (string)     | нет          | Сортировать по `created_at`, `redeemed_at`, `amount`  (по умолчанию `created_at`) |
-| order_dir (string)    | нет          | Порядок сортировки `asc` или `desc` (по умолчанию `desc`) |
-| status (string[])     | нет          | Фильтровать по статусам `created`, `processing`, `active`, `redeeming`, `redeemed`, `onhold`, `canceled` |
+| `page` (int32)        | нет          | Номер страницы (по умолчанию 1)     |
+| `per_page` (int32)    | нет          | Количество кодов на страницу (по умолчанию 10) |
+| `order_by` (string)   | нет          | Сортировать по `created_at`, `redeemed_at`, `amount`  (по умолчанию `created_at`) |
+| `order_dir` (string)  | нет          | Порядок сортировки `asc` или `desc` (по умолчанию `desc`) |
+| `status` (string[])   | нет          | Фильтровать по статусам `created`, `processing`, `active`, `redeeming`, `redeemed`, `onhold`, `canceled` |
 
 
 
@@ -758,8 +758,8 @@ POST /v3/auth/kuna_codes/redeemed-by-me
 
 | Параметр              | Обязательный | Описание                            |
 |-----------------------|--------------|-------------------------------------|
-| page (int32)          | нет          | Номер страницы (по умолчанию 1)     |
-| per_page (int32)      | нет          | Количество кодов на страницу (по умолчанию 10) |
-| order_by (string)     | нет          | Сортировать по `created_at`, `redeemed_at`, `amount`  (по умолчанию `redeemed_at`) |
-| order_dir (string)    | нет          | Порядок сортировки `asc` или `desc` (по умолчанию `desc`) |
+| `page` (int32)        | нет          | Номер страницы (по умолчанию 1)     |
+| `per_page` (int32)    | нет          | Количество кодов на страницу (по умолчанию 10) |
+| `order_by` (string)   | нет          | Сортировать по `created_at`, `redeemed_at`, `amount`  (по умолчанию `redeemed_at`) |
+| `order_dir` (string)  | нет          | Порядок сортировки `asc` или `desc` (по умолчанию `desc`) |
 
