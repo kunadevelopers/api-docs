@@ -569,11 +569,8 @@ curl -X 'POST' \
 Все методы предназначеные для ввода и вывода криптовалюты являются приватными, а значит для каждого вам понадобится подпись. \
 Если у вас включена двухфакторная аутентификация, то так-же, вам понадобится указывать **otp** пароль для некоторых запросов. 
 
-**Статусы для ввода**
 ![Kuna Deposit statuses](https://raw.githubusercontent.com/kunadevelopers/api-docs/master/deposit-transparent.png)
 
-
-**Статусы для вывода**
 ![Kuna Withdraw statuses](https://raw.githubusercontent.com/kunadevelopers/api-docs/master/withdraw-transparent.png)
 
 
@@ -965,3 +962,4 @@ POST /v3/auth/kuna_codes/redeemed-by-me
 | `per_page` (int32)     | нет          | Количество кодов на страницу (по умолчанию 10) |
 | `order_by` (string)    | нет          | Сортировать по `created_at`, `redeemed_at`, `amount`  (по умолчанию `redeemed_at`) |
 | `order_dir` (string)   | нет          | Порядок сортировки `asc` или `desc` (по умолчанию `desc`) |
+
