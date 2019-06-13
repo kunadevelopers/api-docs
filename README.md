@@ -2,12 +2,17 @@
   <img src="https://raw.githubusercontent.com/kunadevelopers/api-docs/master/kuna_api.png" title="Kuna API v3 Documentation" alt="kuna api v3 doc" />
 </p>
 
+
+[kuna.io]: https://kuna.io
+[api.kuna.io]: https://api.kuna.io
+
+
 # Документаций по Kuna API v3
 
 API палнировалось быть организованым по принципам REST. Но что-то пошло не так. \
 Все методы делятся на публичные (public) и приватные (private).
 
-Для того что бы осуществлять приватные запросы, вы должны быть зерегистрированным пользователем на сайте [kuna.io](https://kuna.io), и иметь специальный **API Token**, который состоит из публичного (`publicKey`) и приватного (`secretKey`) ключей.
+Для того что бы осуществлять приватные запросы, вы должны быть зерегистрированным пользователем на сайте [kuna.io], и иметь специальный **API Token**, который состоит из публичного (`publicKey`) и приватного (`secretKey`) ключей.
 
 Для публичных методов ключ и подпись запроса не нужны.
 
@@ -319,7 +324,7 @@ POST /v3/auth/me
   "kunaid": "kunaid-XXXXXXXXXXXX",  # Kuna ID аккаунте. Его можно сменить через сапорт.
   "two_factor": true,               # активирована ли двухфакторная аутентификация
   "withdraw_confirmation": false,   # нужно ли подтвердение через Email для вывода средств
-  "public_keys": {                  # набор ключей для ввода-вывода фиата через PayCore
+  "public_keys": {                  # набор ключей для ввода-вывода фиата
     "deposit_sdk_uah_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "deposit_sdk_usd_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "deposit_sdk_rub_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -576,12 +581,14 @@ curl -X 'POST' \
 ```bash
 {
   "public_keys": {
-    "deposit_sdk_uah_public_key":   # публичный ключ для UAH
-      "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "deposit_sdk_usd_public_key":   # публичный ключ для USD
-      "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "deposit_sdk_rub_public_key":   # публичный ключ для RUB
-      "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    # публичный ключ для UAH
+    "deposit_sdk_uah_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+
+    # публичный ключ для USD
+    "deposit_sdk_usd_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+
+    # публичный ключ для RUB
+    "deposit_sdk_rub_public_key": "pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"   
   }
 }
 ```
@@ -607,9 +614,41 @@ Kuna Code имеет структуру: \
 
 **Валидация кода offline (по чексумме)**
 
-Первые 45 символов сегенирированны случайно. Первый символ, это чексумма остальных 44. Используя первый символ можно валидировать Kuna Code не обращаясь на сервер kuna.io
+Первые 45 символов сегенирированны случайно. Первый символ, это чексумма остальных 44. Используя первый символ можно валидировать Kuna Code не обращаясь на сервер [kuna.io]. Первый символ расчитывается как сумма остальных по модулю 58.
 
-=== Тут будет еще многооооо чего связанного с механизмом валидации Kuna Code ===
+Алгоритм валидации KunaCode на JavaScript:
+
+```javascript
+function validateKunaCode(kunaCode) {
+  const base58Alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+
+  // Разбиваем KunaCode по строкам и берем тело, без суфикса
+  const body = kunaCode.split('-').slice(0, -2).join('');
+
+  // Берем первый символ кода
+  const checksum = base58Alphabet.indexOf(body[0]);
+
+  // Отделяем остальные 44 символа кода 
+  const str = body.slice(1);
+  let i = str.length;
+  let sum = 0;
+
+  // Пробегаемся по каждому символу и суммируем его позицию в алфавите base58
+  while (i--) {
+    sum += base58Alphabet.indexOf(str.charAt(i));
+  }
+  
+  // Сверяем чексумму
+  if (sum % 58 !== checksum) {
+    // Выбрасываем ошибку, так как чексумма не верная
+    throw new Error('Invalid checksum');
+  }
+
+  return true;
+}
+```
+
+
 
 **Статусы кодов**
 
@@ -630,24 +669,42 @@ Kuna Code имеет структуру: \
 
 ```bash
 {
-  "id": 519,                # внутренний ID
-  "sn": "p9MajCjlLo72",     # ID для указания к супорту
-  "code":                   # секретный ключ кода, по которому он и активируется
-    "857ny-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-KUN-KCode",
-  "recipient": "all",       # Kuna-ID того кто может активировать код.
-                            # если 'all' то активировать может кто угодно
-  "amount": "800000",       # сумма кода
-  "currency": "kun",        # валюта кода
-  "status": "active",       # статус кода
-  "non_refundable_before":  # время, до которого нельзя активировать код владельцем
-    "2019-08-20T13:00:00+02:00",   
-  "created_at":             # время создания кода
-    "2019-03-20T13:00:00+02:00",              
-  "redeemed_at": null,      # время активации кода
-  "comment":                # приватный коментарий кода
-    "Try to activate inside your Plark Wallet",  
-  "private_comment":        # публичный коментарий кода
-    "Ripple to the MOON!"                
+  # внутренний ID
+  "id": 519,
+
+  # ID для указания к супорту
+  "sn": "p9MajCjlLo72",
+
+  # секретный ключ кода, по которому он и активируется
+  "code": "857ny-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-KUN-KCode",
+
+  # Kuna-ID того кто может активировать код.
+  # если 'all' то активировать может кто угодно
+  "recipient": "all",
+
+  # сумма кода
+  "amount": "800000",
+
+  # валюта кода
+  "currency": "kun",
+
+  # статус кода
+  "status": "active",
+
+  # время, до которого нельзя активировать код владельцем
+  "non_refundable_before": "2019-08-20T13:00:00+02:00",
+
+  # время создания кода
+  "created_at": "2019-03-20T13:00:00+02:00",
+
+  # время активации кода
+  "redeemed_at": null,
+
+  # приватный коментарий кода
+  "comment": "Try to activate inside your Plark Wallet",
+
+  # публичный коментарий кода
+  "private_comment": "Ripple to the MOON!"
 }
 ```
 
