@@ -569,9 +569,9 @@ curl -X 'POST' \
 Все методы предназначеные для ввода и вывода криптовалюты являются приватными, а значит для каждого вам понадобится подпись. \
 Если у вас включена двухфакторная аутентификация, то так-же, вам понадобится указывать **otp** пароль для некоторых запросов. 
 
-![Kuna Deposit statuses](https://raw.githubusercontent.com/kunadevelopers/api-docs/master/deposit-transparent.png)
+![Kuna Deposit statuses](https://raw.githubusercontent.com/kunadevelopers/api-docs/master/deposit-status.png)
 
-![Kuna Withdraw statuses](https://raw.githubusercontent.com/kunadevelopers/api-docs/master/withdraw-transparent.png)
+![Kuna Withdraw statuses](https://raw.githubusercontent.com/kunadevelopers/api-docs/master/withdraw-status.png)
 
 
 ### 1) Получить адрес для депозита
