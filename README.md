@@ -340,8 +340,8 @@ GET /v3/fees
   # пример для фиатной валюты
   {
     # способ вывода для фиатных валют
-    # возможные варинты: advcash_wallet, payeer, perfectmoney_account,
-    #                    perfectmoney_transfer, kuna_code, payment_card
+    # возможные варианты: advcash_wallet, payeer, perfectmoney_account,
+    #                     perfectmoney_transfer, kuna_code, payment_card
     "code": "advcash_wallet",
 
     "category": "usd",    # символ фиатной валюты
