@@ -70,6 +70,8 @@ API планировалось быть организованым по прин
 
 API Token можно получить у себя в кабинете, по ссылке https://kuna.io/api_tokens.
 
+Документацию на предыдущую версию API v2 можно найти по ссылке: https://github.com/kunadevelopers/api-docs/blob/master/kuna-api-v2.md
+
 
 Оглавление
 ----------
