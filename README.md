@@ -1065,7 +1065,7 @@ curl https://api.kuna.io/v3/auth/assets-history/deposits
 Это можно сделать с помощью метода `POST https://pay.kuna.io/public-api/payout-prerequest`.
 
 
-**Данные запроса**
+**Пример параметров запроса**
 ```bash
 {
   "amount": 1000,
@@ -1180,7 +1180,7 @@ curl https://api.kuna.io/v3/auth/assets-history/deposits
 Для начала вам нужно получить список доступных способов для депозита. \
 Это можно сделать с помощью метода `POST https://pay.kuna.io/public-api/payment-prerequest`. \
 
-**Данные запроса**
+**Пример параметров запроса**
 ```bash
 {
   "currency": "UAH",
