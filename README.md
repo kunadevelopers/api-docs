@@ -1091,7 +1091,7 @@ curl https://api.kuna.io/v3/auth/assets-history/deposits
                 "fields": [{
                   "key": "card_number",
                   "type": "string",
-                  "label": { en": "Card number" },
+                  "label": { "en": "Card number" },
                   "example": null,
                   "hint": { "en": "Enter card number" },
                   "regexp": "^\\\\d{12,19}$",
