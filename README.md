@@ -248,6 +248,7 @@ console.log(signature); // выводит подпись в HEX формате
 ```bash
 curl -X POST \
     https://api.kuna.io/v3/auth/kuna_codes/issued-by-me \
+    -d '{}' \
     -H 'Accept: application/json' \
     -H 'Kun-Nonce: 1560007410000' \
     -H 'Kun-ApiKey: vPNvF9ArqV4HqMzpAIyaLvToJJ1x1rfRZP5jNrQf' \
