@@ -734,7 +734,7 @@ curl -X POST \
 
 # А так можно отменить сразу несколько ордеров, ID 1000000 и ID 1000001
 curl -X 'POST' \
-  "https://api.kuna.io/v3/order/cancel/multy" \
+  "https://api.kuna.io/v3/order/cancel/multi" \
   -d '{"order_ids": [1000000, 1000001]}'
 ```
 
