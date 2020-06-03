@@ -725,6 +725,10 @@ curl -X POST \
 POST /v3/order/cancel
 ```
 
+```bash
+POST /v3/order/cancel/multi
+```
+
 **Пример запроса**
 ```bash
 # Отменит ордер с ID 1000000 
